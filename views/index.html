@@ -10,17 +10,29 @@
             vertical-align: middle
         }
     </style>
-</head>
+    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/2.0.1/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/2.0.1/css/react-select.css" />
+    </head>
 
 <body>
     <input type="text" id="theInput">
     <input type="button" value=" Join " id="JoinButton">
     <input type="button" value=" Start " id="StartButton">
+    <div id="meetingSDKElement">
+        <!-- Zoom Meeting SDK Rendered Here -->
+     </div>
+    <script src="https://source.zoom.us/2.1.0/lib/vendor/react.min.js"></script>
+    <script src="https://source.zoom.us/2.1.0/lib/vendor/react-dom.min.js"></script>
+    <script src="https://source.zoom.us/2.1.0/lib/vendor/redux.min.js"></script>
+    <script src="https://source.zoom.us/2.1.0/lib/vendor/redux-thunk.min.js"></script>
+    <script src="https://source.zoom.us/2.1.0/lib/vendor/lodash.min.js"></script>
+    <script src="https://source.zoom.us/2.1.0/zoom-meeting-embedded-2.1.0.min.js"></script>
+    
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="/js/module.js"></script>
+
 </body>
 
-
-<script type="module" src="/js/module.js"></script>
-<script type="module" src="js/main.js"></script>
 
 
 </html>
