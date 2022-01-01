@@ -3,32 +3,44 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Realms</title>
-    <style id="compiled-css" type="text/css">
-        #theInput {
-            height: 20px;
-            line-height: 20px;
-            vertical-align: middle
-        }
-    </style>
     <link type="text/css" rel="stylesheet" href="https://source.zoom.us/2.0.1/css/bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="https://source.zoom.us/2.0.1/css/react-select.css" />
-    </head>
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+</head>
 
 <body>
-    <input type="text" id="theInput">
-    <input type="button" value=" Join " id="JoinButton">
-    <input type="button" value=" Start " id="StartButton">
-    <input type="button" value=" Log In " id="LogInButton">
-    <div id="meetingSDKElement">
-        <!-- Zoom Meeting SDK Rendered Here -->
-     </div>
+    <div class="leftside">
+        <div id="meetingSDKElement">
+        </div>
+    </div>
+    <div class="vertical-center" >
+        <img src="images/realms.png" style="margin-bottom: 10%;">
+        <input type="text" id="theInput" value="132456789">
+        <button class="button1"id="JoinButton"> Join </button>
+        <button class="button2"id="StartButton"> Start </button>
+        <button class="button3"id="LogInButton">
+            <img src="images/zoom-icon-logo.png" style="height: 80%; padding-left: 10% ; padding-right: 10%;">
+            Log In
+        </button>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
     <script src="https://source.zoom.us/2.1.0/lib/vendor/react.min.js"></script>
     <script src="https://source.zoom.us/2.1.0/lib/vendor/react-dom.min.js"></script>
     <script src="https://source.zoom.us/2.1.0/lib/vendor/redux.min.js"></script>
     <script src="https://source.zoom.us/2.1.0/lib/vendor/redux-thunk.min.js"></script>
     <script src="https://source.zoom.us/2.1.0/lib/vendor/lodash.min.js"></script>
     <script src="https://source.zoom.us/2.1.0/zoom-meeting-embedded-2.1.0.min.js"></script>
-    
+
     <script type="module" src="js/main.js"></script>
 </body>
 
