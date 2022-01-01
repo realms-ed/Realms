@@ -1,8 +1,26 @@
-import {joinFunc} from '/js/module.js';
-window.join = joinFunc
+import {joinFunc, startFunc} from '/js/module.js';
+import {loginFunc} from '/js/login.js'
 
-function hello()
+window.join = joinFunc
+window.start = startFunc
+window.login = loginFunc
+
+function joinMeeting()
 {
-    console.log(window.join());
+    window.join();
 }
-document.querySelector('#JoinButton').addEventListener('click', hello);
+
+function startMeeting()
+{
+    window.start();
+}
+
+function login()
+{
+    window.login();
+}
+
+document.querySelector('#JoinButton').addEventListener('click', joinMeeting);
+document.querySelector('#StartButton').addEventListener('click', startMeeting);
+document.querySelector('#LogInButton').addEventListener('click', login);
+

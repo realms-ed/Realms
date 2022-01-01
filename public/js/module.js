@@ -2,6 +2,10 @@ const client = ZoomMtgEmbedded.createClient();
 
 let meetingSDKElement = document.getElementById('meetingSDKElement');
 
+//var url = "http://localhost:4000/";
+var url = window.location.href
+console.log(url)
+
 client.init({
   debug: true,
   zoomAppRoot: meetingSDKElement,
@@ -25,13 +29,12 @@ client.init({
 export function joinFunc() {    
 
     var xhr = new XMLHttpRequest();
-    var url = "https://realms-ed.herokuapp.com/";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            console.log(json.signaturess);
+            console.log(json.signature);
             client.join({
                 signature: json.signature,
                 meetingNumber: 9993851419,
@@ -57,14 +60,12 @@ export function joinFunc() {
 export function startFunc() {    
 
     var xhr = new XMLHttpRequest();
-    //var url = "http://localhost:4000/";
-    var url = "https://realms-ed.herokuapp.com/";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            console.log(json.signaturess);
+            console.log(json.signature);
             client.join({
                 signature: json.signature,
                 meetingNumber: 9993851419,

@@ -7,12 +7,12 @@
   "env": {
     "ZOOM_JWT_API_KEY": {
       "description": "Your Zoom JWT App API Key, found on your Zoom JWT App Credentials page",
-      "value": "",
+      "value": "NRF1ny_0Sz2VWOlYb7szcg",
       "required": true
     },
     "ZOOM_JWT_API_SECRET": {
       "description": "Your Zoom JWT App API Secret, found on your Zoom JWT App Credentials page",
-      "value": "",
+      "value": "FCfvMWKWJ0O1asBcRERDrfvsujVSWnvZ252O",
       "required": true
     }
   }
