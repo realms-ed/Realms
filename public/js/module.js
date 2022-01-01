@@ -25,13 +25,13 @@ client.init({
 export function joinFunc() {    
 
     var xhr = new XMLHttpRequest();
-    var url = "http://localhost:4000/";
+    var url = "https://realms-ed.herokuapp.com/";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            console.log(json.signature);
+            console.log(json.signaturess);
             client.join({
                 signature: json.signature,
                 meetingNumber: 123456789,
