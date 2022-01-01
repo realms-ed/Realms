@@ -1,5 +1,5 @@
 body {
-    background-image: linear-gradient(180deg, rgb(34, 34, 34), rgb(0, 0, 0));
+    background-image: linear-gradient(180deg, rgb(71, 71, 71), rgb(0, 0, 0));
 }
 
 .leftside {
@@ -19,8 +19,18 @@ body {
     transform: translateY(-50%);
 }
 
-input[type="text"] {
+.controls {
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    left: 57.5%;
+    top: 55%;
+    width: 25%;
+    height: 30%;
+}
 
+input[type="text"] {
+    border-radius: 8px;
     text-align: center;
     background-color: rgb(37, 37, 37);
     border-top-style: hidden;
@@ -36,7 +46,8 @@ input[type="text"] {
 }
 
 .button1 {
-    background-color: rgb(37, 37, 37);
+    border-radius: 8px;
+    background-color: rgb(56, 56, 56);
     color: lightgray;
     border-top-style: hidden;
     border-right-style: hidden;
@@ -51,6 +62,7 @@ input[type="text"] {
 }
 
 .button2 {
+    border-radius: 8px;
     background-color: rgb(56, 56, 56);
     color: lightgray;
     border-top-style: hidden;
@@ -66,8 +78,9 @@ input[type="text"] {
 }
 
 .button3 {
+    border-radius: 8px;
     text-align: left;
-    background-color: rgb(37, 37, 37);
+    background-color: rgb(56, 56, 56);
     color: lightgray;
     border-top-style: hidden;
     border-right-style: hidden;
@@ -79,4 +92,29 @@ input[type="text"] {
     padding-left: 0;
     padding-right: 0;
     height: 40px;
+}
+
+.green_glow {
+    -webkit-filter: drop-shadow(0px 0px 0px rgb(14, 255, 94));
+     filter: drop-shadow(0px 0px 0px rgba(94, 255, 0, 1));
+}
+.green_glow:hover {
+    -webkit-filter: drop-shadow(0px 0px 30px rgb(14, 255, 94));
+     filter: drop-shadow(0px 0px 30px rgba(94, 255, 0, 1));
+}
+.red_glow {
+    -webkit-filter: drop-shadow(0px 0px 0px rgb(255, 24, 24));
+     filter: drop-shadow(0px 0px 0px rgba(255, 68, 68, 1));
+}
+.red_glow:hover {
+    -webkit-filter: drop-shadow(0px 0px 30px rgb(255, 24, 24));
+     filter: drop-shadow(0px 0px 30px rgba(255, 68, 68, 1));
+}
+.yellow_glow {
+    -webkit-filter: drop-shadow(0px 0px 0px rgb(255, 215, 39));
+     filter: drop-shadow(0px 0px 0px rgb(255, 196, 0));
+}
+.yellow_glow:hover {
+    -webkit-filter: drop-shadow(0px 0px 30px rgb(255, 215, 39));
+     filter: drop-shadow(0px 0px 30px rgb(255, 196, 0));
 }
