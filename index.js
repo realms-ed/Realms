@@ -10,6 +10,11 @@ const port = process.env.PORT || 4000
 app.use(bodyParser.json(), cors())
 app.options('*', cors());
 
+var favicon = require('serve-favicon');
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
+
+app.use(express.static('public'))
+
 app.post('/', (req, res) => {
 
   const timestamp = new Date().getTime() - 30000
