@@ -28,6 +28,23 @@ client.init({
 
 export function joinFunc() {    
 
+    var screen_name="";
+    if (document.getElementById("NameInput").value == "") {
+        screen_name = "Guest";
+    } else {
+        screen_name = document.getElementById("NameInput").value;
+    }
+
+
+    var zoomid = "";
+    if (document.getElementById("theInput").value == "") {
+        alert("You need to enter a Zoom id!");
+        return
+    } else {
+        zoomid = document.getElementById("theInput").value;
+        console.log(zoomid);
+    }
+
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -37,8 +54,8 @@ export function joinFunc() {
             console.log(json.signature);
             client.join({
                 signature: json.signature,
-                meetingNumber: 9993851419,
-                userName: "Ray",
+                meetingNumber: zoomid,
+                userName: screen_name,
                 apiKey: "NRF1ny_0Sz2VWOlYb7szcg",
                 passWord: "",
                 success: (success) => {
@@ -51,39 +68,8 @@ export function joinFunc() {
         }
     };
     var data = JSON.stringify({
-        "meetingNumber": 9993851419,
+        "meetingNumber": zoomid,
         "role": 0
-      });
-    xhr.send(data);
-}
-
-export function startFunc() {    
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var json = JSON.parse(xhr.responseText);
-            console.log(json.signature);
-            client.join({
-                signature: json.signature,
-                meetingNumber: 9993851419,
-                userName: "Ray",
-                apiKey: "NRF1ny_0Sz2VWOlYb7szcg",
-                passWord: "",
-                success: (success) => {
-                  console.log(success)
-                },
-                error: (error) => {
-                  console.log(error)
-                }
-              })
-        }
-    };
-    var data = JSON.stringify({
-        "meetingNumber": 9993851419,
-        "role": 1
       });
     xhr.send(data);
 }
