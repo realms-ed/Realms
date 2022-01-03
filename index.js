@@ -6,7 +6,8 @@ const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient
 
 let db;
-const uri = "mongodb+srv://Ray:OOAiz65vvPzJXWz1@realms.x18ki.mongodb.net/REALMS?retryWrites=true&w=majority";
+//const uri = "mongodb+srv://Ray:OOAiz65vvPzJXWz1@realms.x18ki.mongodb.net/REALMS?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI;
 
 MongoClient.connect(uri, (err, client) => {
   if(err) {
@@ -15,6 +16,7 @@ MongoClient.connect(uri, (err, client) => {
   db = client.db('Rooms');
 });
 
+console.log("db looks like this: ")
 console.log(db);
 
 const app = express()
