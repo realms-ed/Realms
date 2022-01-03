@@ -16,8 +16,10 @@ MongoClient.connect(uri, (err, client) => {
   db = client.db('Rooms');
 });
 
-console.log("db looks like this: ")
+console.log("db looks like this: ");
 console.log(db);
+console.log("URI looks like this: ");
+console.log(uri);
 
 const app = express()
 const port = process.env.PORT || 4000
