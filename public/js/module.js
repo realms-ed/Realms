@@ -26,15 +26,14 @@ client.init({
   }
 });
 
-export function joinFunc() {    
-
+export function joinFunc() {
+  
     var screen_name="";
     if (document.getElementById("NameInput").value == "") {
         screen_name = "Guest";
     } else {
         screen_name = document.getElementById("NameInput").value;
     }
-
 
     var zoomid = "";
     if (document.getElementById("theInput").value == "") {
@@ -44,6 +43,10 @@ export function joinFunc() {
         zoomid = document.getElementById("theInput").value;
         console.log(zoomid);
     }
+
+    fetch('/join/'+zoomid+'/'+screen_name, {method: 'POST'})
+
+    return
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);

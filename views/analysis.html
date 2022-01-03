@@ -5,23 +5,22 @@
     <title>Realms</title>
     <link type="text/css" rel="stylesheet" href="https://source.zoom.us/2.0.1/css/bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="https://source.zoom.us/2.0.1/css/react-select.css" />
-    <link type="text/css" rel="stylesheet" href="css/style.css">
-    <script type="text/javascript" crossorigin="anonymous" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
-
+    <link type="text/css" rel="stylesheet" href="../css/analysis.css">
+    <script type="text/javascript" src="../js/paper.js"></script>
+    <script type="text/paperscript" src="../js/circles.js" canvas="myCanvas"></script>
 </head>
 
 <body>
-    <div class="vertical-center">
-        <img src="images/realms.png" style="margin-bottom: 10%;">
-        <input type="text" id="NameInput" placeholder="Your Name">
-        <input type="text" id="theInput" placeholder="Zoom Meeting ID">
-        <input type="text" id="PasswordInput" placeholder="Meeting Password">
-        <button class="button1" id="JoinButton"> Join </button>
-        <button class="button3" id="CreateButton"> 
-            <img src="images/zoom-icon-logo.png" style="height: 80%; padding-left: 10% ; padding-right: 10%;" >
-            Create
-        </button>
+    <div class="leftside">
+        <div id="meetingSDKElement" style="position: absolute; width: 100%;">
+        </div>
     </div>
+    <div class="logo">
+        <img src="../images/realms.png">
+    </div>
+
+    <canvas id="myCanvas" resize="true"></canvas>
+
 
     <script src="https://source.zoom.us/2.1.0/lib/vendor/react.min.js"></script>
     <script src="https://source.zoom.us/2.1.0/lib/vendor/react-dom.min.js"></script>
@@ -30,7 +29,6 @@
     <script src="https://source.zoom.us/2.1.0/lib/vendor/lodash.min.js"></script>
     <script src="https://source.zoom.us/2.1.0/zoom-meeting-embedded-2.1.0.min.js"></script>
 
-    <script type="module" src="js/main.js"></script>
 </body>
 
 
