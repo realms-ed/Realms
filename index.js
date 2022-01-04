@@ -66,6 +66,13 @@ app.get('/host/:roomid', (req, res, next) => {
   id = req.params.roomid;
   res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp')
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
+  db.listCollections({name: id})
+    .next(function(err, collinfo) {
+        if (collinfo) {
+          res.redirect('/');
+          return
+        }
+    });
   db.createCollection(id, function(err, res) {
     if (err) throw err;
     console.log("Collection created!");
@@ -98,6 +105,8 @@ app.post('/update/:roomid/:name/:status', (req, res) => {
     },
   };
   const result = db.collection(id).updateOne(filter, updateDoc, options);
+  res.end()
+  return
 });
 
 var mongoose = require('mongoose')
