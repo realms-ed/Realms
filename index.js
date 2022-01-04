@@ -3,11 +3,15 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const crypto = require('crypto')
 const cors = require('cors')
-const MongoClient = require('mongodb').MongoClient
+const {MongoClient} = require('mongodb');
 
 let db;
-//const uri = "mongodb+srv://Ray:OOAiz65vvPzJXWz1@realms.x18ki.mongodb.net/REALMS?retryWrites=true&w=majority";
-const uri = process.env.MONGODB_URI;
+const uri = "mongodb+srv://Ray:OOAiz65vvPzJXWz1@realms.x18ki.mongodb.net/REALMS?retryWrites=true&w=majority";
+//const uri = process.env.MONGODB_URI;
+
+const mongoOptions = { useUnifiedTopology: true };
+
+const client = new MongoClient(uri, mongoOptions);
 
 MongoClient.connect(uri, (err, client) => {
   if(err) {
@@ -16,10 +20,12 @@ MongoClient.connect(uri, (err, client) => {
   db = client.db('Rooms');
 });
 
-console.log("db looks like this: ");
-console.log(db);
-console.log("URI looks like this: ");
-console.log(uri);
+try {
+  // Connect to the MongoDB cluster
+  client.connect();
+} catch (e) {
+  console.error(e);
+}
 
 const app = express()
 const port = process.env.PORT || 4000
@@ -68,21 +74,15 @@ app.get('/host/:roomid', (req, res, next) => {
 });
 
 app.get('/join/:roomid/:name', (req, res) => {
-  id = req.params.roomid;
-  screen_name = req.params.name;
-
-  const result = db.collection(id).insertOne({
-    name: screen_name,
-    status: "content"
-  });
   return res.sendFile(path.join(homePath, 'student.html'))
 });
 
 app.post('/update/:roomid/:name/:status', (req, res) => {
+  console.log('updating...');
   id = req.params.roomid;
   screen_name = req.params.name;
   current_status = req.params.status;
-
+  console.log(current_status);
   const d = new Date();
   time = d.getTime();
   console.log(time);
@@ -103,7 +103,6 @@ app.post('/update/:roomid/:name/:status', (req, res) => {
 var mongoose = require('mongoose')
 
 process.on('SIGINT', function() {
-  db.command( { killAllSessions: [{}]  } )
   mongoose.connection.close(function () {
     console.log('Mongoose disconnected on app termination');
     process.exit(0);
