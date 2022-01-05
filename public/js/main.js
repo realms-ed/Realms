@@ -1,23 +1,13 @@
-import {joinFunc} from '/js/module.js';
-
-window.join = joinFunc
-
-document.querySelector('#JoinButton').addEventListener('click', joinMeeting);
+document.querySelector('#JoinButton').onclick = joinFunc;
 document.getElementById("CreateButton").onclick = createFunc;
 
-window.addEventListener('beforeunload', function (e) {
-    fetch('/leave/'+zoomid+'/'+screen_name, {method: 'POST'})
-});
-
-function joinMeeting()
-{
+function joinFunc() {
     var screen_name="";
     if (document.getElementById("NameInput").value == "") {
-        screen_name = "Guest";
+        screen_name = "-";
     } else {
         screen_name = document.getElementById("NameInput").value;
     }
-
     var zoomid = "";
     if (document.getElementById("theInput").value == "") {
         alert("You need to enter a Zoom id!");
@@ -26,7 +16,6 @@ function joinMeeting()
         zoomid = document.getElementById("theInput").value;
         console.log(zoomid);
     }
-
     window.location.href='/join/'+ zoomid + '/' + screen_name;
 }
 
@@ -36,6 +25,6 @@ function createFunc() {
         alert("Must enter a Zoom ID to begin Realms session.");
         return
     } else {
-        document.location.href = '/host/' + id;
+        document.location.href = '/create/' + id;
     }
 }

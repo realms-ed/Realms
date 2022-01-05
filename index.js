@@ -1,9 +1,15 @@
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
-const crypto = require('crypto')
+var crypto = require('crypto'),
+  algorithm = 'aes-256-ctr',
+  password = crypto.randomBytes(32);
 const cors = require('cors')
-const {MongoClient} = require('mongodb');
+const { MongoClient } = require('mongodb');
+var mongoose = require('mongoose');
+
+
+const iv = crypto.randomBytes(16);
 
 let db;
 const uri = "mongodb+srv://Ray:OOAiz65vvPzJXWz1@realms.x18ki.mongodb.net/REALMS?retryWrites=true&w=majority";
@@ -14,7 +20,7 @@ const mongoOptions = { useUnifiedTopology: true };
 const client = new MongoClient(uri, mongoOptions);
 
 MongoClient.connect(uri, (err, client) => {
-  if(err) {
+  if (err) {
     return console.log(err);
   }
   db = client.db('Rooms');
@@ -62,40 +68,90 @@ app.get('/', function (req, res) {
 const path = require('path');
 const homePath = path.join(__dirname, 'views');
 
-app.get('/host/:roomid', (req, res, next) => {
+
+
+
+
+
+function encrypt(text) {
+  var cipher = crypto.createCipheriv(algorithm, password, iv)
+  var crypted = cipher.update(text, 'utf8', 'hex')
+  crypted += cipher.final('hex');
+  return crypted;
+}
+
+function decrypt(text) {
+  var decipher = crypto.createDecipheriv(algorithm, password, iv)
+  var dec = decipher.update(text, 'hex', 'utf8')
+  dec += decipher.final('utf8');
+  return dec;
+}
+
+
+
+
+
+
+
+
+
+app.get('/create/:roomid', (req, res, next) => {
   id = req.params.roomid;
-  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp')
-  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
-  db.listCollections({name: id})
-    .next(function(err, collinfo) {
-        if (collinfo) {
-          res.redirect('/');
-          return
-        }
+  db.listCollections({ name: id })
+    .next(function (err, collinfo) {
+      if (collinfo) {
+        res.redirect('/');
+      }
+      else {
+        db.createCollection(id, function (err, res) {
+          if (err) throw err;
+        }); 
+        const hashedid = encrypt(id);
+        return res.redirect('/host/' + hashedid);
+      }
     });
-  db.createCollection(id, function(err, res) {
-    if (err) throw err;
-    console.log("Collection created!");
-  });
-  return res.sendFile(path.join(homePath, 'analysis.html'))
+});
+
+app.get('/host/:hashedid', (req, res, next) => {
+  var hashedid = req.params.roomid;
+  return res.sendFile(path.join(homePath, 'teacher.html'))
 });
 
 app.get('/join/:roomid/:name', (req, res) => {
-  return res.sendFile(path.join(homePath, 'student.html'))
-});
-
-app.post('/update/:roomid/:name/:status', (req, res) => {
-  console.log('updating...');
   id = req.params.roomid;
   screen_name = req.params.name;
+  db.listCollections({ name: id })
+    .next(function (err, collinfo) {
+      if (collinfo) {
+        const hashedinfo = encrypt(id + '|' + screen_name);
+        res.redirect('/session/' + hashedinfo);
+      }
+      else {
+        res.redirect('/');
+      }
+    });
+});
+
+app.get('/session/:hashedinfo', (req, res) => {
+  const hashedinfo = req.params.hashedinfo;
+  const info = decrypt(hashedinfo);
+  const roomid = info.split('|')[0];
+  const screen_id = info.split('|')[1];
+  return res.sendFile(path.join(homePath, 'student.html'))
+  return
+});
+
+
+app.post('/update/:hash/:status', (req, res) => {
+  const info = decrypt(req.params.hash).split('|');
   current_status = req.params.status;
-  console.log(current_status);
+  roomid = info[0];
+  screen_name = info[1];
+
   const d = new Date();
   time = d.getTime();
-  console.log(time);
-
-  const filter = { name : screen_name };
-  const options =  { upsert : true };
+  const filter = { name: screen_name };
+  const options = { upsert: true };
 
   const updateDoc = {
     $set: {
@@ -104,14 +160,69 @@ app.post('/update/:roomid/:name/:status', (req, res) => {
       latest: time
     },
   };
-  const result = db.collection(id).updateOne(filter, updateDoc, options);
+  const result = db.collection(roomid).updateOne(filter, updateDoc, options);
   res.end()
   return
 });
 
-var mongoose = require('mongoose')
 
-process.on('SIGINT', function() {
+app.post('/getdata/:hash', (req, res) => {
+  const id = decrypt(req.params.hash);
+
+  var students = [];
+  var num = 0;
+
+  db.collection(id).count({}, function (error, count) {
+    console.log(error, count);
+    num = count;
+  });
+
+  console.log(num);
+
+  var cursor = db.collection(id).find({});
+  cursor.forEach(function(doc) {
+    students.push(doc.status);
+    console.log([students.length, cursor.count()]);
+    if (students.length==num) {
+      var u=0; var q=0; var d=0;
+
+      for (var i=0; i<students.length; i++) {
+        if (students[i]=='understand') { u++;}
+        else if (students[i]=='question') {q++;}
+        else if (students[i]=='dont_understand') {d++;}
+      }
+
+      console.log(JSON.stringify({understand: u, question: q, dont_understand: d}));
+    
+      res.end(JSON.stringify({understand: u, question: q, dont_understand: d}));
+      return
+    }
+  });
+  return
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+process.on('SIGINT', function () {
   mongoose.connection.close(function () {
     console.log('Mongoose disconnected on app termination');
     process.exit(0);
