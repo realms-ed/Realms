@@ -58,6 +58,8 @@ $(window).load(function() {
      document.addEventListener("keydown", keyparse, false);
 });
 
+fetch('/update/'+window.hash+'/'+window.current_status, {method: 'POST'}).catch(err => console.error("Err" + err));
+
 var worker = new Worker('../../js/student_worker.js');
 worker.onmessage = function() {
     try {

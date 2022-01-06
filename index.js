@@ -172,11 +172,14 @@ app.post('/getdata/:hash', async function (req, res) {
   console.log(thing);
 
   var u=0; var q =0 ; var d=0;
+  let time = (new Date).getTime();
 
   for (var i=0; i<thing.length; i++) {
-    if (thing[i].status=='understand') { u++;}
-    else if (thing[i].status=='question') {q++;}
-    else if (thing[i].status=='dont_understand') {d++;}
+    if (time-thing[i].latest < 4000) {
+      if (thing[i].status=='understand') { u++;}
+      else if (thing[i].status=='question') {q++;}
+      else if (thing[i].status=='dont_understand') {d++;}
+    }
   }
 
   res.end(JSON.stringify({understand: u, question: q, dont_understand: d}));

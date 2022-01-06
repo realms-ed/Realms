@@ -1,3 +1,3 @@
 setInterval(()=>{
     postMessage("");
-}, 5000)
+}, 2000)
