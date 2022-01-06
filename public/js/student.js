@@ -10,7 +10,7 @@ function understand() {
     document.getElementById("question").style['filter'] = 'drop-shadow(0px 0px 0px rgb(0,0,0));';
     document.getElementById("x").style['-webkit-filter'] = 'drop-shadow(0px 0px 0px rgb(0,0,0))';
     document.getElementById("x").style['filter'] = 'drop-shadow(0px 0px 0px rgb(0,0,0))';
-    fetch('/update/'+window.hash+'/'+window.current_status, {method: 'POST'}).catch(err => console.error("Err" + err));
+    fetch('/update/'+window.hash+'/'+window.current_status+'/n', {method: 'POST'}).catch(err => console.error("Err" + err));
 
 }
 function question() {
@@ -21,7 +21,7 @@ function question() {
     document.getElementById("x").style['-webkit-filter'] = 'drop-shadow(0px 0px 0px rgb(0,0,0))';
     document.getElementById("x").style['filter'] = 'drop-shadow(0px 0px 0px rgb(0,0,0))';
     window.current_status = "question";
-    fetch('/update/'+window.hash+'/'+window.current_status, {method: 'POST'}).catch(err => console.error("Err" + err));
+    fetch('/update/'+window.hash+'/'+window.current_status+'/n', {method: 'POST'}).catch(err => console.error("Err" + err));
 
 }
 
@@ -33,7 +33,7 @@ function x() {
     document.getElementById("x").style['-webkit-filter'] = 'drop-shadow(0px 0px 30px rgba(255, 68, 68, 1))';
     document.getElementById("x").style['filter'] = 'drop-shadow(0px 0px 30px rgba(255, 68, 68, 1))';
     window.current_status = "dont_understand";
-    fetch('/update/'+window.hash+'/'+window.current_status, {method: 'POST'}).catch(err => console.error("Err" + err));
+    fetch('/update/'+window.hash+'/'+window.current_status+'/n', {method: 'POST'}).catch(err => console.error("Err" + err));
 
 }
 
@@ -58,12 +58,12 @@ $(window).load(function() {
      document.addEventListener("keydown", keyparse, false);
 });
 
-fetch('/update/'+window.hash+'/'+window.current_status, {method: 'POST'}).catch(err => console.error("Err" + err));
+fetch('/update/'+window.hash+'/'+window.current_status+'/n', {method: 'POST'}).catch(err => console.error("Err" + err));
 
 var worker = new Worker('../../js/student_worker.js');
 worker.onmessage = function() {
     try {
-        fetch('/update/'+window.hash+'/'+window.current_status, {method: 'POST'}).catch(err => console.error("Err" + err));
+        fetch('/update/'+window.hash+'/'+window.current_status+'/o', {method: 'POST'}).catch(err => console.error("Err" + err));
     } catch(err) {
         console.log(err);
     }

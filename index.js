@@ -95,6 +95,9 @@ function decrypt(text) {
 
 app.get('/create/:roomid', (req, res, next) => {
   id = req.params.roomid;
+  if (id.length<10) {
+    id = id.padStart(10, "0");
+  }
   db.listCollections({ name: id })
     .next(function (err, collinfo) {
       if (collinfo) {
@@ -117,6 +120,9 @@ app.get('/host/:hashedid', (req, res, next) => {
 
 app.get('/join/:roomid/:name', (req, res) => {
   id = req.params.roomid;
+  if (id.length<10) {
+    id = id.padStart(10, "0");
+  }
   screen_name = req.params.name;
   db.listCollections({ name: id })
     .next(function (err, collinfo) {
@@ -140,9 +146,10 @@ app.get('/session/:hashedinfo', (req, res) => {
 });
 
 
-app.post('/update/:hash/:status', (req, res) => {
+app.post('/update/:hash/:status/:n', (req, res) => {
   const info = decrypt(req.params.hash).split('|');
   current_status = req.params.status;
+  whethernew = req.params.n;
   roomid = info[0];
   screen_name = info[1];
 
@@ -150,15 +157,26 @@ app.post('/update/:hash/:status', (req, res) => {
   time = d.getTime();
   const filter = { name: screen_name };
   const options = { upsert: true };
-
-  const updateDoc = {
-    $set: {
-      name: screen_name,
-      status: current_status,
-      latest: time
-    },
-  };
-  const result = db.collection(roomid).updateOne(filter, updateDoc, options);
+  if (whethernew=='n') {
+    const result = db.collection(roomid).updateOne(filter, {
+      $set: {
+        name: screen_name,
+        status: current_status,
+        latest: time
+      },
+      $push: {
+        timestamps: [time, current_status]
+      }
+    }, options);
+  }else {
+    const result = db.collection(roomid).updateOne(filter, {
+      $set: {
+        name: screen_name,
+        status: current_status,
+        latest: time
+      },
+    }, options);
+  }
   res.end()
   return
 });
@@ -169,8 +187,6 @@ app.post('/getdata/:hash', async function (req, res) {
   var students = [];
 
   var thing = await db.collection(id).find({}).toArray();
-  console.log(thing);
-
   var u=0; var q =0 ; var d=0;
   let time = (new Date).getTime();
 
