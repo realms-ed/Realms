@@ -26,7 +26,9 @@ function draw(happy, unsure, sad) {
     if(N==1) {
         if (happy==1) {new paper.Path.Circle(new paper.Point(x/2, y/2), Math.min(x/2, y/2)).fillColor = '#02ba42';}
         if (unsure==1) {new paper.Path.Circle(new paper.Point(x/2, y/2), Math.min(x/2, y/2)).fillColor = '#e3d149';}
-        if (sad==1) {new paper.Path.Circle(new paper.Point(x/2, y/2), Math.min(x/2, y/2)).fillColor= '#d92e5b';}    
+        if (sad==1) {new paper.Path.Circle(new paper.Point(x/2, y/2), Math.min(x/2, y/2)).fillColor= '#d92e5b';}
+        paper.view.draw();
+        return    
     }
 
     var j=0;

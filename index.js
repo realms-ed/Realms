@@ -60,8 +60,6 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 app.get('/', function (req, res) {
-  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp')
-  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
   res.render('index', {});
 });
 
@@ -165,41 +163,23 @@ app.post('/update/:hash/:status', (req, res) => {
   return
 });
 
-
-app.post('/getdata/:hash', (req, res) => {
+app.post('/getdata/:hash', async function (req, res) {
   const id = decrypt(req.params.hash);
 
   var students = [];
-  var num = 0;
 
-  db.collection(id).count({}, function (error, count) {
-    console.log(error, count);
-    num = count;
-  });
+  var thing = await db.collection(id).find({}).toArray();
+  console.log(thing);
 
-  console.log(num);
+  var u=0; var q =0 ; var d=0;
 
-  var cursor = db.collection(id).find({});
-  cursor.forEach(function(doc) {
-    students.push(doc.status);
-    console.log([students.length, cursor.count()]);
-    if (students.length==num) {
-      var u=0; var q=0; var d=0;
+  for (var i=0; i<thing.length; i++) {
+    if (thing[i].status=='understand') { u++;}
+    else if (thing[i].status=='question') {q++;}
+    else if (thing[i].status=='dont_understand') {d++;}
+  }
 
-      for (var i=0; i<students.length; i++) {
-        if (students[i]=='understand') { u++;}
-        else if (students[i]=='question') {q++;}
-        else if (students[i]=='dont_understand') {d++;}
-      }
-
-      console.log(JSON.stringify({understand: u, question: q, dont_understand: d}));
-    
-      res.end(JSON.stringify({understand: u, question: q, dont_understand: d}));
-      return
-    }
-  });
-  return
-
+  res.end(JSON.stringify({understand: u, question: q, dont_understand: d}));
 });
 
 
