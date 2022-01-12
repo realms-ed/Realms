@@ -8,13 +8,15 @@ function joinFunc() {
     } else {
         screen_name = document.getElementById("NameInput").value;
     }
+    window.localStorage.setItem('name', screen_name);
+
     var zoomid = "";
     if (document.getElementById("theInput").value == "") {
         alert("You need to enter a Zoom id!");
         return
     } else {
         zoomid = document.getElementById("theInput").value;
-        console.log(zoomid);
+        window.localStorage.setItem('zoomid', zoomid);
     }
     window.location.href='/join/'+ zoomid + '/' + screen_name;
 }

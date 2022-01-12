@@ -2,8 +2,8 @@ const client = ZoomMtgEmbedded.createClient();
 
 let meetingSDKElement = document.getElementById('meetingSDKElement');
 
-//var url = "http://localhost:4000/";
-var url = window.location.href
+//var url = window.location.href
+var url = "http://localhost:4000/"
 console.log(url)
 
 client.init({
@@ -26,53 +26,30 @@ client.init({
   }
 });
 
-export function joinFunc() {
-  
-    var screen_name="";
-    if (document.getElementById("NameInput").value == "") {
-        screen_name = "Guest";
-    } else {
-        screen_name = document.getElementById("NameInput").value;
+var xhr = new XMLHttpRequest();
+xhr.open("POST", url, true);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(xhr.responseText);
+        console.log(json.signature);
+        client.join({
+            signature: json.signature,
+            meetingNumber: window.zoomid,
+            userName: window.name,
+            apiKey: "NRF1ny_0Sz2VWOlYb7szcg",
+            passWord: "",
+            success: (success) => {
+              console.log(success)
+            },
+            error: (error) => {
+              console.log(error)
+            }
+          })
     }
-
-    var zoomid = "";
-    if (document.getElementById("theInput").value == "") {
-        alert("You need to enter a Zoom id!");
-        return
-    } else {
-        zoomid = document.getElementById("theInput").value;
-        console.log(zoomid);
-    }
-
-    fetch('/join/'+zoomid+'/'+screen_name, {method: 'POST'})
-
-    return
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var json = JSON.parse(xhr.responseText);
-            console.log(json.signature);
-            client.join({
-                signature: json.signature,
-                meetingNumber: zoomid,
-                userName: screen_name,
-                apiKey: "NRF1ny_0Sz2VWOlYb7szcg",
-                passWord: "",
-                success: (success) => {
-                  console.log(success)
-                },
-                error: (error) => {
-                  console.log(error)
-                }
-              })
-        }
-    };
-    var data = JSON.stringify({
-        "meetingNumber": zoomid,
-        "role": 0
-      });
-    xhr.send(data);
-}
+};
+var data = JSON.stringify({
+    "meetingNumber": window.zoomid,
+    "role": 0
+  });
+xhr.send(data);

@@ -2,6 +2,15 @@ var url = window.location.href;
 window.hash = url.split('/')[4];
 window.current_status = "understand";
 
+window.name = (window.localStorage.getItem('name'));
+document.getElementById("Zoom Name").innerHTML = "Name: " + window.name;
+
+window.zoomid = window.localStorage.getItem('zoomid');
+console.log(window.zoomid);
+document.getElementById("Zoom ID").innerHTML = "Zoom ID: " + window.zoomid;
+
+
+
 function understand() {
     window.current_status = "understand"
     document.getElementById("bolt").style['-webkit-filter'] = 'drop-shadow(0px 0px 30px rgb(14, 255, 94))';
