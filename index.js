@@ -8,7 +8,6 @@ const cors = require('cors')
 const { MongoClient } = require('mongodb');
 var mongoose = require('mongoose');
 
-
 const iv = crypto.randomBytes(16);
 
 let db;
@@ -65,11 +64,6 @@ app.get('/', function (req, res) {
 
 const path = require('path');
 const homePath = path.join(__dirname, 'views');
-
-
-
-
-
 
 function encrypt(text) {
   var cipher = crypto.createCipheriv(algorithm, password, iv)
