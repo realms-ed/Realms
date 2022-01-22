@@ -114,6 +114,7 @@ var SamlStrategy = require('passport-saml').Strategy;
 var strategy = new SamlStrategy(
   {
     path : '/login/callback',
+    callbackUrl : 'http://realms-ed.herokuapp.com/login/callback',
     entryPoint : 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
     issuer : 'http://realms-ed.herokuapp.com',
     cert : cert
