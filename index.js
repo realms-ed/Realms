@@ -37,7 +37,6 @@ Oq1NcLtkNWMSq1QuKSIH+0A+sk7JQQV5suDgkwhw+GiQaACvLVZ7ycV2ILkJ2Tk9
 MtJY3fAFXPW7IfSXTJu5reCPeUZFFhgz/IRGleWhCs1Bdp1rWibtvubIjwLcsFcO
 rIKb1CBs2k0TJEFNSlo=`
 
-
 const iv = crypto.randomBytes(16);
 
 let db;
@@ -111,7 +110,8 @@ function decrypt(text) {
 
 
 var SamlStrategy = require('passport-saml').Strategy;
-passport.use(new SamlStrategy(
+
+var strategy = new SamlStrategy(
   {
     path : '/login/callback',
     entryPoint : 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
@@ -126,11 +126,8 @@ passport.use(new SamlStrategy(
       return done(null, user);
     });
   })
-);
 
-
-
-
+passport.use(strategy);
 
 app.get('/SSOLogin',
 passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
@@ -141,7 +138,7 @@ res.redirect('/');
 app.get('/Shibboleth.sso/Metadata', 
     function(req, res) {
         res.type('application/xml');
-        res.send(200, SamlStrategy.generateServiceProviderMetadata(cert));
+        res.send(200, strategy.generateServiceProviderMetadata(cert));
     }
 );
 
