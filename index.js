@@ -113,39 +113,38 @@ var SamlStrategy = require('passport-saml').Strategy;
 
 var strategy = new SamlStrategy(
   {
-    path : '/login/callback',
-    callbackUrl : 'https://realms-ed.herokuapp.com/login/callback',
-    entryPoint : 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
-    issuer : 'https://realms-ed.herokuapp.com',
-    cert : cert
+    path: '/login/callback',
+    callbackUrl: 'https://realms-ed.herokuapp.com/login/callback',
+    entryPoint: 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
+    issuer: 'https://realms-ed.herokuapp.com',
+    cert: cert
   },
-  function(profile, done) {
-    findByEmail(profile.email, function(err, user) {
-      if (err) {
-        return done(err);
-      }
-      return done(null, user);
-    });
+  function (profile, done) {
+    console.log(profile);
   })
 
 passport.use(strategy);
 
 app.get('/SSOLogin',
-passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
-function(req, res) {
-res.redirect('/');
-}
+  passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
+  function (req, res) {
+    res.redirect('/');
+  }
 );
-app.get('/Shibboleth.sso/Metadata', 
-    function(req, res) {
-        res.type('application/xml');
-        res.send(200, strategy.generateServiceProviderMetadata(cert));
-    }
+app.get('/Shibboleth.sso/Metadata',
+  function (req, res) {
+    res.type('application/xml');
+    res.send(200, strategy.generateServiceProviderMetadata(cert));
+  }
 );
+
+app.get('/login/callback', (req, res) => {
+  res.redirect('/')
+})
 
 app.get('/create/:roomid', (req, res, next) => {
   id = req.params.roomid;
-  if (id.length<10) {
+  if (id.length < 10) {
     id = id.padStart(10, "0");
   }
   db.listCollections({ name: id })
@@ -156,12 +155,14 @@ app.get('/create/:roomid', (req, res, next) => {
       else {
         db.createCollection(id, function (err, res) {
           if (err) throw err;
-        }); 
+        });
         const hashedid = encrypt(id);
         return res.redirect('/host/' + hashedid);
       }
     });
 });
+
+
 
 app.get('/host/:hashedid', (req, res, next) => {
   var hashedid = req.params.roomid;
@@ -170,7 +171,7 @@ app.get('/host/:hashedid', (req, res, next) => {
 
 app.get('/join/:roomid/:name', (req, res) => {
   id = req.params.roomid;
-  if (id.length<10) {
+  if (id.length < 10) {
     id = id.padStart(10, "0");
   }
   screen_name = req.params.name;
@@ -207,7 +208,7 @@ app.post('/update/:hash/:status/:n', (req, res) => {
   time = d.getTime();
   const filter = { name: screen_name };
   const options = { upsert: true };
-  if (whethernew=='n') {
+  if (whethernew == 'n') {
     const result = db.collection(roomid).updateOne(filter, {
       $set: {
         name: screen_name,
@@ -218,7 +219,7 @@ app.post('/update/:hash/:status/:n', (req, res) => {
         timestamps: [time, current_status]
       }
     }, options);
-  }else {
+  } else {
     const result = db.collection(roomid).updateOne(filter, {
       $set: {
         name: screen_name,
@@ -237,18 +238,18 @@ app.post('/getdata/:hash', async function (req, res) {
   var students = [];
 
   var thing = await db.collection(id).find({}).toArray();
-  var u=0; var q =0 ; var d=0;
+  var u = 0; var q = 0; var d = 0;
   let time = (new Date).getTime();
 
-  for (var i=0; i<thing.length; i++) {
-    if (time-thing[i].latest < 4000) {
-      if (thing[i].status=='understand') { u++;}
-      else if (thing[i].status=='question') {q++;}
-      else if (thing[i].status=='dont_understand') {d++;}
+  for (var i = 0; i < thing.length; i++) {
+    if (time - thing[i].latest < 4000) {
+      if (thing[i].status == 'understand') { u++; }
+      else if (thing[i].status == 'question') { q++; }
+      else if (thing[i].status == 'dont_understand') { d++; }
     }
   }
 
-  res.end(JSON.stringify({understand: u, question: q, dont_understand: d}));
+  res.end(JSON.stringify({ understand: u, question: q, dont_understand: d }));
 });
 
 
