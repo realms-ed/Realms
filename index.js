@@ -7,6 +7,7 @@ var crypto = require('crypto'),
 const cors = require('cors')
 const { MongoClient } = require('mongodb');
 var mongoose = require('mongoose');
+const passport = require('passport')
 
 const iv = crypto.randomBytes(16);
 
@@ -78,6 +79,41 @@ function decrypt(text) {
   dec += decipher.final('utf8');
   return dec;
 }
+
+
+
+
+
+var SamlStrategy = require('passport-saml').Strategy;path : '/login/callback',
+
+passport.use(new SamlStrategy(
+  {
+    path : '/login/callback',
+    entryPoint : 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
+    issuer : 'realms-ed.herokuapp.com/login/callback',
+    cert : 
+
+  },
+  function(profile, done) {
+    findByEmail(profile.email, function(err, user) {
+      if (err) {
+        return done(err);
+      }
+      return done(null, user);
+    });
+  })
+);
+
+
+
+
+
+app.get('/SSOLogin',
+passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
+function(req, res) {
+res.redirect('/');
+}
+);
 
 
 
