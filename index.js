@@ -7,6 +7,7 @@ var crypto = require('crypto'),
 const cors = require('cors')
 const { MongoClient } = require('mongodb');
 var mongoose = require('mongoose');
+const passport = require('passport')
 
 const iv = crypto.randomBytes(16);
 
@@ -83,8 +84,33 @@ function decrypt(text) {
 
 
 
+var SamlStrategy = require('passport-saml').Strategy;
+
+passport.use(new SamlStrategy(
+  {
+    path : '/login/callback',
+    entryPoint : 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
+    issuer : 'http://172.16.226.167/shibboleth'
+  },
+  function(profile, done) {
+    findByEmail(profile.email, function(err, user) {
+      if (err) {
+        return done(err);
+      }
+      return done(null, user);
+    });
+  })
+);
 
 
+
+
+app.get('/SSOLogin',
+passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
+function(req, res) {
+res.redirect('/');
+}
+);
 
 
 app.get('/create/:roomid', (req, res, next) => {

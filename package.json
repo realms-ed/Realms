@@ -21,6 +21,8 @@
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.4",
     "paper": "^0.12.15",
+    "passport": "^0.5.2",
+    "passport-saml": "^3.2.1",
     "serve-favicon": "^2.5.0",
     "url-whitelist": "^0.2.0"
   }
