@@ -115,7 +115,7 @@ passport.use(new SamlStrategy(
   {
     path : '/login/callback',
     entryPoint : 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
-    issuer : 'realms-ed.herokuapp.com',
+    issuer : 'http://realms-ed.herokuapp.com',
     cert : cert
   },
   function(profile, done) {
