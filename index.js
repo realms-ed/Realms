@@ -81,7 +81,7 @@ function decrypt(text) {
 }
 
 
-
+/*
 
 
 var SamlStrategy = require('passport-saml').Strategy;path : '/login/callback',
@@ -115,7 +115,7 @@ res.redirect('/');
 }
 );
 
-
+*/
 
 app.get('/create/:roomid', (req, res, next) => {
   id = req.params.roomid;
