@@ -130,15 +130,14 @@ app.get('/SSOLogin',  passport.authenticate('saml', {
   failureRedirect: '/error',
 }));
 
-app.post('/login/callback',
-  passport
-    .authenticate('saml', { failureRedirect: '/', failureFlash: true }), (req, res, next) => {
-    const xmlResponse = req.body.SAMLResponse;
-    const parser = new Saml2js(xmlResponse);
-    req.samlUserObject = parser.toObject();
-    next();
-  },
-  (req, res) => userLogin.createUserSession(res, req));
+app.post(
+  "/login/callback",
+  bodyParser.urlencoded({ extended: false }),
+  passport.authenticate("saml", { failureRedirect: "/", failureFlash: true }),
+  function (req, res) {
+    res.redirect("/");
+  }
+);
 
 app.get('/create/:roomid', (req, res, next) => {
   id = req.params.roomid;
