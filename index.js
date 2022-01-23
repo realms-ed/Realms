@@ -130,7 +130,8 @@ app.post(
     console.log('huzzah!');
     console.log(req.body);
     passport.authenticate("saml", { successRedirect: '/result', failureRedirect: "/", failureFlash: true })(req, res, next);
-    //res.redirect('/');
+    console.log('okay then...');
+    res.redirect('/');
   }
 );
 
