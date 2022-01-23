@@ -117,7 +117,7 @@ app.get('/SSOLogin',  passport.authenticate('saml', {
 app.get('/Shibboleth.sso/Metadata',
   function (req, res) {
     res.type('application/xml');
-    res.send(200, strategy.generateServiceProviderMetadata(undefined, cert));
+    res.send(200, strategy.generateServiceProviderMetadata(undefined, my_cert));
   }
 );
 
