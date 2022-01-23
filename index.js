@@ -122,7 +122,7 @@ app.get('/Shibboleth.sso/Metadata',
 app.post(
   "/login/callback",
   bodyParser.urlencoded({ extended: false }),
-  //passport.authenticate("saml", { failureRedirect: "/", failureFlash: true }),
+  passport.authenticate("saml", { successRedirect: '/result', failureRedirect: "/", failureFlash: true }),
   function (req, res) {
     console.log(req.body);
     res.redirect("/");
