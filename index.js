@@ -110,7 +110,9 @@ passport.use(strategy);
 app.get('/SSOLogin',  passport.authenticate('saml', {
   successRedirect: '/',
   failureRedirect: '/error',
-}));
+}), function (req, res) {
+  res.end();
+});
 
 app.get('/Shibboleth.sso/Metadata',
   function (req, res) {
@@ -124,7 +126,8 @@ app.post(
   bodyParser.urlencoded({ extended: false }),
   passport.authenticate("saml", { successRedirect: '/result', failureRedirect: "/", failureFlash: true }),
   function (req, res) {
-    res.end();
+    console.log('huzzah!');
+    res.redirect('/');
   }
 );
 
