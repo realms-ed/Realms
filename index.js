@@ -13,7 +13,7 @@ var saml = require('passport-saml');
 
 var fs = require('fs');
 
-var duke_cert = fs.readFileSync('certs/our-idp-server-https-cert.pem', 'utf-8');
+var duke_cert = fs.readFileSync('certs/our-idp-server-https-cert.pem', 'utf-8').split(/\r?\n/);
 var priv = fs.readFileSync('certs/my-server-private.key', 'utf-8');
 var my_cert = fs.readFileSync('certs/my-server-https-cert.crt', 'utf-8');
 
