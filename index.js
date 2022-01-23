@@ -11,9 +11,11 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var saml = require('passport-saml');
 
-var duke_cert = fs.readFileSync('./certs/our-idp-server-https-cert.pem', 'utf-8');
-var priv = fs.readFileSync('./certs/my-server-private.key', 'utf-8');
-var my_cert = fs.readFileSync('./certs/my-server-https-cert.crt', 'utf-8');
+var fs = require('fs');
+
+var duke_cert = fs.readFileSync('certs/our-idp-server-https-cert.pem', 'utf-8');
+var priv = fs.readFileSync('certs/my-server-private.key', 'utf-8');
+var my_cert = fs.readFileSync('certs/my-server-https-cert.crt', 'utf-8');
 
 const iv = crypto.randomBytes(16);
 
@@ -100,7 +102,7 @@ var strategy = new SamlStrategy(
     cert: duke_cert,
     privateKey: priv,
     identifierFormat: null,
-y  },
+  },
   function (profile, done) {
     console.log(profile);
   })
