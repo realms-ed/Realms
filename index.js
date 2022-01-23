@@ -11,23 +11,6 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var saml = require('passport-saml');
 
-var pvk = `-----BEGIN PRIVATE KEY-----
-MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKosIaKqSZCAtB/I
-0X947qYd+THvFto1S0+7Mu/AEIXVB9wOuZI0djbVwbZaMHIlnpFAJ2Me7hzI7HRY
-xGSDMDhQx9x+NXroE0WoKBuaRpYlD0ZZ0rm+FTTvH67fJSpGl7OGvMQ0+eKNx0zJ
-eWhZNe9abOKFFBmAAj+AfpDQA26HAgMBAAECgYBpw5v0GZo3MYbB6nIqo+LPY/mp
-S0wMuurf1x1FXT3nsAt+fbhgYjLGyfvndg5+I1t2M0VHmcWsJkSv2yvUvKSOmDD6
-InJBjmeQPbIDgHhvfhjakOPk7sjK2w75iC/Db4oHj21IE9RaRRVM2yVKx4NqjtMT
-V3Um3V4rQHX6/H634QJBANeT6Ptyd7jyt8t4raP0XJj881qZ1DBP3SUFfqJyC64i
-bokzTeW11k8Ulm8w5DqY4o7bRD8MlE10ppAJx78o3asCQQDKFLAJ78/RrMsR5HEw
-i7HmuVmMKpsSjJd+uKRJ0IkeKw/iu4TVYnqmh1vfCKYHPqLxJIwumIm7YiBm4fi9
-oT6VAkEAy0aAaSGNvMq5/lXjvfb8nZHfUm49A/U6vN8KgtjxJJj5C8xhxpoI4/aw
-x1Ydzxc8gqJFHwKYkNTO/oEKZbl+EwJBAIunLl0/oMRLgO81i0+8Ss6jaxIl45M3
-G/8URV1Jw2jY45qScuMwsohhZQlGpc6958d0tXgCLLUVxES1h7wtMd0CQAI/1F6M
-r1YZOS2FO8sxvTBsjYiVfI2cMToVn3nZrOf2a/UfjR/C0LqKhKDzmqbLjDMaRg1G
-jMTh5mRU46nQRt0=
------END PRIVATE KEY-----`
-
 var cert = `MIIEWjCCA0KgAwIBAgIJAISe53Mbr3zHMA0GCSqGSIb3DQEBBQUAMHsxCzAJBgNV
 BAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEPMA0GA1UEBxMGRHVyaGFt
 MRgwFgYDVQQKEw9EdWtlIFVuaXZlcnNpdHkxDDAKBgNVBAsTA09JVDEaMBgGA1UE
@@ -135,7 +118,6 @@ var strategy = new SamlStrategy(
     issuer: 'https://realms-ed.herokuapp.com',
     cert: cert,
     identifierFormat: null,
-    decryptionPvk: pvk
   },
   function (profile, done) {
     console.log(profile);
