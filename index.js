@@ -138,8 +138,6 @@ app.get('/Shibboleth.sso/Metadata',
   }
 );
 
-const bodyParser = require("body-parser");
-
 app.post("/login/callback",
   bodyParser.urlencoded({ extended: false }),
   passport.authenticate("saml", {
