@@ -124,7 +124,7 @@ app.post(
   bodyParser.urlencoded({ extended: false }),
   passport.authenticate("saml", { successRedirect: '/result', failureRedirect: "/", failureFlash: true }),
   function (req, res) {
-    console.log(req.body);
+    res.end();
     res.redirect("/");
   }
 );
