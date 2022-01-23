@@ -125,7 +125,6 @@ app.post(
   passport.authenticate("saml", { successRedirect: '/result', failureRedirect: "/", failureFlash: true }),
   function (req, res) {
     res.end();
-    res.redirect("/");
   }
 );
 
