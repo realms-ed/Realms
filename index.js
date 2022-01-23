@@ -11,30 +11,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var saml = require('passport-saml');
 
-var cert = `MIIEWjCCA0KgAwIBAgIJAISe53Mbr3zHMA0GCSqGSIb3DQEBBQUAMHsxCzAJBgNV
-BAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEPMA0GA1UEBxMGRHVyaGFt
-MRgwFgYDVQQKEw9EdWtlIFVuaXZlcnNpdHkxDDAKBgNVBAsTA09JVDEaMBgGA1UE
-AxMRc2hpYi5vaXQuZHVrZS5lZHUwHhcNMDgwNzEwMTIwNTM0WhcNMjgwNzA1MTIw
-NTM0WjB7MQswCQYDVQQGEwJVUzEXMBUGA1UECBMOTm9ydGggQ2Fyb2xpbmExDzAN
-BgNVBAcTBkR1cmhhbTEYMBYGA1UEChMPRHVrZSBVbml2ZXJzaXR5MQwwCgYDVQQL
-EwNPSVQxGjAYBgNVBAMTEXNoaWIub2l0LmR1a2UuZWR1MIIBIjANBgkqhkiG9w0B
-AQEFAAOCAQ8AMIIBCgKCAQEAv0ZYz9Zf3C6/22GDrB1cvQzpKcOgoeVX6NAowu99
-0YaK1nlTN6AeJLsoVEum1cUUligaxCX9/5XPolx84vYbfGreBRDVXGbNCJFpDa9s
-rPtBcu2htAvrXLL7+na8CnhsncNAlZvK8zHrhiDlSjC0/dcVqBGDWg7ZYmtMiFXi
-tZbITtJ3g+gjdJEs5CFE/MAP8O9xoBDPF5y64atMaG7UYbKo1Czbx7p1taOeayTt
-okTfoRTZbCRoRRzG49CejLLF6fmXtEFbN8zpb2OWSEDMeOC92eUT3/4J87i3sIDe
-Hh1IoJN5ETKFfZp0GbtrAxj+tVTFf4bQPInY1Lv281pMUwIDAQABo4HgMIHdMB0G
-A1UdDgQWBBSCqzfMcKlbkm3Wrwf3mePSWS02YDCBrQYDVR0jBIGlMIGigBSCqzfM
-cKlbkm3Wrwf3mePSWS02YKF/pH0wezELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5v
-cnRoIENhcm9saW5hMQ8wDQYDVQQHEwZEdXJoYW0xGDAWBgNVBAoTD0R1a2UgVW5p
-dmVyc2l0eTEMMAoGA1UECxMDT0lUMRowGAYDVQQDExFzaGliLm9pdC5kdWtlLmVk
-dYIJAISe53Mbr3zHMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBAIPZ
-tIcbb4jIkc5ucU+lPRCtMecWVWcRQTcRMuYoWao/FrRt4rPQ9+RpdDSNPduDNfxo
-E4/PkidshcCdJLEQAdy904puyT9u0FmuELW0qCNCI89B67pCDs8bwCiHsD6s8D5c
-CZ++SXhEoTjdvuR8zmcOb+ZKYd5kdDU26HTvprfoBA2KdC9QEhBd5tMGYP3CNVn5
-Oq1NcLtkNWMSq1QuKSIH+0A+sk7JQQV5suDgkwhw+GiQaACvLVZ7ycV2ILkJ2Tk9
-MtJY3fAFXPW7IfSXTJu5reCPeUZFFhgz/IRGleWhCs1Bdp1rWibtvubIjwLcsFcO
-rIKb1CBs2k0TJEFNSlo=`
+var duke_cert = fs.readFileSync('./certs/our-idp-server-https-cert.pem', 'utf-8');
+var priv = fs.readFileSync('./certs/my-server-private.key', 'utf-8');
+var my_cert = fs.readFileSync('./certs/my-server-https-cert.crt', 'utf-8');
 
 const iv = crypto.randomBytes(16);
 
@@ -116,9 +95,12 @@ var strategy = new SamlStrategy(
     callbackUrl: 'https://realms-ed.herokuapp.com/login/callback',
     entryPoint: 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
     issuer: 'https://realms-ed.herokuapp.com',
-    cert: cert,
+
+    signatureAlgorithm: "sha256",
+    cert: duke_cert,
+    privateKey: priv,
     identifierFormat: null,
-  },
+y  },
   function (profile, done) {
     console.log(profile);
   })
@@ -129,6 +111,13 @@ app.get('/SSOLogin',  passport.authenticate('saml', {
   successRedirect: '/',
   failureRedirect: '/error',
 }));
+
+app.get('/Shibboleth.sso/Metadata',
+  function (req, res) {
+    res.type('application/xml');
+    res.send(200, strategy.generateServiceProviderMetadata(undefined, cert));
+  }
+);
 
 app.post(
   "/login/callback",
