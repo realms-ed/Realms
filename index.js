@@ -107,12 +107,14 @@ var strategy = new SamlStrategy(
 
 passport.use(strategy);
 
-app.get('/SSOLogin',  passport.authenticate('saml', {
-  successRedirect: '/',
-  failureRedirect: '/error',
-}), function (req, res) {
-  res.end();
-});
+app.get(
+  '/SSOLogin',
+  passport.authenticate("saml", { failureRedirect: "/", failureFlash: true }),
+  function (req, res) {
+    console.log("is anybody out there?")
+    res.redirect("/");
+  }
+);
 
 app.get('/Shibboleth.sso/Metadata',
   function (req, res) {
