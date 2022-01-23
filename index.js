@@ -117,8 +117,7 @@ var strategy = new SamlStrategy(
     callbackUrl: 'https://realms-ed.herokuapp.com/login/callback',
     entryPoint: 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
     issuer: 'https://realms-ed.herokuapp.com',
-    cert: cert,
-    identifierFormat : null
+    cert: cert
   },
   function (profile, done) {
     console.log(profile);
@@ -126,24 +125,20 @@ var strategy = new SamlStrategy(
 
 passport.use(strategy);
 
-app.get('/SSOLogin',
-  passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
-  function (req, res) {
-    res.redirect('/');
-  }
-);
-app.get('/Shibboleth.sso/Metadata',
-  function (req, res) {
-    res.type('application/xml');
-    res.send(200, strategy.generateServiceProviderMetadata(cert));
-  }
-);
+app.get('/SSOLogin',  passport.authenticate('saml', {
+  successRedirect: '/',
+  failureRedirect: '/error',
+}));
 
-app.post('/login/callback', (req, res) => {
-  console.log(req.body);
-  res.redirect('/');
-  res.end()
-});
+app.post('/login/callback',
+  passport
+    .authenticate('saml', { failureRedirect: '/', failureFlash: true }), (req, res, next) => {
+    const xmlResponse = req.body.SAMLResponse;
+    const parser = new Saml2js(xmlResponse);
+    req.samlUserObject = parser.toObject();
+    next();
+  },
+  (req, res) => userLogin.createUserSession(res, req));
 
 app.get('/create/:roomid', (req, res, next) => {
   id = req.params.roomid;
