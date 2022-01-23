@@ -97,10 +97,7 @@ var strategy = new SamlStrategy(
     callbackUrl: 'https://realms-ed.herokuapp.com/login/callback',
     entryPoint: 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
     issuer: 'https://realms-ed.herokuapp.com',
-
-    signatureAlgorithm: "sha256",
     cert: duke_cert,
-    privateKey: priv,
     identifierFormat: null,
   },
   function (profile, done) {
@@ -117,7 +114,7 @@ app.get('/SSOLogin',  passport.authenticate('saml', {
 app.get('/Shibboleth.sso/Metadata',
   function (req, res) {
     res.type('application/xml');
-    res.send(200, strategy.generateServiceProviderMetadata(undefined, my_cert));
+    res.send(200, strategy.generateServiceProviderMetadata(my_cert));
   }
 );
 
