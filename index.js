@@ -140,7 +140,7 @@ app.get('/Shibboleth.sso/Metadata',
 
 app.get('/login/callback', (req, res) => {
   res.redirect('/')
-})
+});
 
 app.get('/create/:roomid', (req, res, next) => {
   id = req.params.roomid;
