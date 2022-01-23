@@ -97,7 +97,7 @@ var strategy = new SamlStrategy(
     callbackUrl: 'https://realms-ed.herokuapp.com/login/callback',
     entryPoint: 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
     issuer: 'https://realms-ed.herokuapp.com',
-    cert: my_cert,
+    cert: duke_cert,
     decryptionPvk: priv,
     identifierFormat: null,
   },
