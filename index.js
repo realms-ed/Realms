@@ -138,8 +138,10 @@ app.get('/Shibboleth.sso/Metadata',
   }
 );
 
-app.get('/login/callback', (req, res) => {
-  res.redirect('/')
+app.post('/login/callback', (req, res) => {
+  console.log(req);
+  res.redirect('/');
+  res.end()
 });
 
 app.get('/create/:roomid', (req, res, next) => {
