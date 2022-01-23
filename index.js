@@ -138,17 +138,11 @@ app.get('/Shibboleth.sso/Metadata',
   }
 );
 
-app.post("/login/callback",
-  bodyParser.urlencoded({ extended: false }),
-  passport.authenticate("saml", {
-    failureRedirect: "/",
-    failureFlash: true,
-  }),
-  function (req, res) {
-    console.log(req.body);
-    res.redirect("/");
-  }
-);
+app.post('/login/callback', (req, res) => {
+  console.log(req.body);
+  res.redirect('/');
+  res.end()
+});
 
 app.get('/create/:roomid', (req, res, next) => {
   id = req.params.roomid;
