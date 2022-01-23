@@ -117,7 +117,8 @@ var strategy = new SamlStrategy(
     callbackUrl: 'https://realms-ed.herokuapp.com/login/callback',
     entryPoint: 'https://shib.oit.duke.edu/idp/profile/SAML2/Redirect/SSO',
     issuer: 'https://realms-ed.herokuapp.com',
-    cert: cert
+    cert: cert,
+    identifierFormat: null
   },
   function (profile, done) {
     console.log(profile);
