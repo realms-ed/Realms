@@ -89,7 +89,7 @@ app.get('/', function (req, res) {
     console.log(req.user);
     res.render('index', {user: req.user});
   } else {
-    res.render('login', {});
+    res.render('login', {});s
   }
 });
 
@@ -124,6 +124,7 @@ var strategy = new SamlStrategy(
     identifierFormat: null,
   },
   function (profile, done) {
+    console.log('thing: ')
     console.log(profile);
     return done(null,
       {
