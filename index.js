@@ -122,7 +122,7 @@ var strategy = new SamlStrategy(
   function (profile, done) {
     return done(null,
       {
-        username: profile.displayName
+        fullname: profile.displayName
       });  })
 
 passport.use(strategy);
