@@ -82,7 +82,12 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
+  if (req.isAuthenticated()) {
+    console.log("Authenticated!");
+  }
   if (req.user) {
+    console.log(req.user);
+
     res.render('index', {user: req.user});
   } else {
     res.render('login', {});
@@ -139,7 +144,6 @@ app.get(
   '/SSOLogin',
   passport.authenticate("saml", { failureRedirect: "/", failureFlash: true }),
   function (req, res) {
-    console.log("is anybody out there?")
     res.redirect("/");
   }
 );
