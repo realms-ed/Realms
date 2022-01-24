@@ -87,7 +87,6 @@ app.get('/', function (req, res) {
   }
   if (req.user) {
     console.log(req.user);
-
     res.render('index', {user: req.user});
   } else {
     res.render('login', {});
@@ -125,6 +124,7 @@ var strategy = new SamlStrategy(
     identifierFormat: null,
   },
   function (profile, done) {
+    console.log(profile);
     return done(null,
       {
         fullname: profile.displayName
@@ -159,8 +159,6 @@ app.post(
   "/login/callback",
   bodyParser.urlencoded({ extended: false }),
   function (req, res, next) {
-    console.log('huzzah!');
-    console.log(req.body);
     passport.authenticate("saml", { successRedirect: '/', failureRedirect: "/", failureFlash: true })(req, res, next);
     console.log('okay then...');
   }
