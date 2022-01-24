@@ -157,9 +157,8 @@ app.post(
   function (req, res, next) {
     console.log('huzzah!');
     console.log(req.body);
-    passport.authenticate("saml", { successRedirect: '/result', failureRedirect: "/", failureFlash: true })(req, res, next);
+    passport.authenticate("saml", { successRedirect: '/', failureRedirect: "/", failureFlash: true })(req, res, next);
     console.log('okay then...');
-    res.redirect('/');
   }
 );
 
