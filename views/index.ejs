@@ -35,7 +35,7 @@
     <script src="https://source.zoom.us/2.1.0/zoom-meeting-embedded-2.1.0.min.js"></script>
 
     <script>
-        var name = <%= user.fullname %>;
+        var name = '<%= user.fullname %>';
         console.log(name);
         window.localStorage.setItem('name', name);
     </script>
