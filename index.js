@@ -89,7 +89,7 @@ app.get('/', function (req, res) {
     console.log(req.user);
     res.render('index', {user: req.user});
   } else {
-    res.render('login', {});s
+    res.render('login', {});
   }
 });
 
