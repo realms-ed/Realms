@@ -11,6 +11,10 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var saml = require('passport-saml');
 
+app.use(session({ secret: 'anything' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 var fs = require('fs');
 
 var duke_cert = fs.readFileSync('certs/our-idp-server-https-cert.pem', 'utf-8').split(/\r?\n/);
