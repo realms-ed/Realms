@@ -2,8 +2,8 @@ const client = ZoomMtgEmbedded.createClient();
 
 let meetingSDKElement = document.getElementById('meetingSDKElement');
 
-//var url = window.location.href
-var url = "http://localhost:4000/"
+var url = window.location.href
+//var url = "http://:4000/"
 console.log(url)
 
 client.init({
