@@ -65,10 +65,14 @@ app.post('/', (req, res) => {
 })
 
 app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
-  res.render('index', {});
+  if (req.user) {
+    res.render('index', {username: req.user.name});
+  } else {
+    res.render('login', {});
+  }
 });
 
 const path = require('path');
