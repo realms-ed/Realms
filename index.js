@@ -128,7 +128,8 @@ var strategy = new SamlStrategy(
     console.log(profile);
     return done(null,
       {
-        fullname: profile.displayName
+        fullname: profile['urn:oid:2.16.840.1.113730.3.1.241']
+
       });  })
 
 passport.use(strategy);
