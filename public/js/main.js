@@ -2,13 +2,7 @@ document.querySelector('#JoinButton').onclick = joinFunc;
 document.getElementById("CreateButton").onclick = createFunc;
 
 function joinFunc() {
-    var screen_name="";
-    if (document.getElementById("NameInput").value == "") {
-        screen_name = "-";
-    } else {
-        screen_name = document.getElementById("NameInput").value;
-    }
-    window.localStorage.setItem('name', screen_name);
+    var screen_name=window.localStorage.getItem('name');
 
     var zoomid = "";
     if (document.getElementById("theInput").value == "") {

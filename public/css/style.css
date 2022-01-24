@@ -9,13 +9,13 @@ body {
     height: 100%;
 }
 
-.vertical-center {
+.joinops {
     text-align: center;
     margin: 0;
     position: absolute;
-    left: 55%;
+    left: 15%;
     width: 30%;
-    top: 30%;
+    top: 55%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
@@ -43,7 +43,6 @@ input[type="text"] {
     height: 40px;
     font-size: 20px;
     margin-bottom: 20px;
-
 }
 
 .button1 {
@@ -112,4 +111,8 @@ input[type="text"] {
 .yellow_glow:hover {
     -webkit-filter: drop-shadow(0px 0px 30px rgb(255, 208, 0));
      filter: drop-shadow(0px 0px 30px rgb(255, 196, 0));
+}
+h1 {
+    color: rgb(189, 189, 189);
+    font-size: 25pt;
 }
