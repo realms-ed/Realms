@@ -127,6 +127,14 @@ var strategy = new SamlStrategy(
 
 passport.use(strategy);
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 app.get(
   '/SSOLogin',
   passport.authenticate("saml", { failureRedirect: "/", failureFlash: true }),
