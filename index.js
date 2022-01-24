@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var session = require('express-session')
 var passport = require('passport');
 var saml = require('passport-saml');
-
+var favicon = require('serve-favicon');
 var fs = require('fs');
 
 var duke_cert = fs.readFileSync('certs/our-idp-server-https-cert.pem', 'utf-8').split(/\r?\n/);
@@ -33,7 +33,6 @@ MongoClient.connect(uri, (err, client) => {
   }
   db = client.db('Rooms');
 });
-
 try {
   // Connect to the MongoDB cluster
   client.connect();
@@ -41,17 +40,28 @@ try {
   console.error(e);
 }
 
+
+
+
+
+
+
+
 const app = express()
 const port = process.env.PORT || 4000
 
 app.use(bodyParser.json(), cors())
 app.options('*', cors());
 
-app.use(session({ secret: 'anything' }));
+app.use(session(
+  {
+    resave: true,
+    saveUninitialized: true,
+    secret: 'this shit hits'
+  }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-var favicon = require('serve-favicon');
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 app.use(express.static('public'))
@@ -73,7 +83,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
   if (req.user) {
-    res.render('index', {username: req.user.name});
+    res.render('index', {user: req.user});
   } else {
     res.render('login', {});
   }
@@ -110,8 +120,10 @@ var strategy = new SamlStrategy(
     identifierFormat: null,
   },
   function (profile, done) {
-    console.log(profile);
-  })
+    return done(null,
+      {
+        username: profile.displayName
+      });  })
 
 passport.use(strategy);
 
