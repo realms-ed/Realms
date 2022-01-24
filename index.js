@@ -89,8 +89,8 @@ app.get('/', function (req, res) {
     console.log(req.user);
     res.render('index', {user: req.user});
   } else {
-    //res.render('login', {});
-    res.render('index', {user: {fullname: 'Ray Lennon'}});
+    res.render('login', {});
+    //res.render('index', {user: {fullname: 'Ray Lennon'}});
   }
 });
 
