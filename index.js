@@ -7,13 +7,9 @@ var crypto = require('crypto'),
 const cors = require('cors')
 const { MongoClient } = require('mongodb');
 var mongoose = require('mongoose');
-
+var session = require('express-session')
 var passport = require('passport');
 var saml = require('passport-saml');
-
-app.use(session({ secret: 'anything' }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 var fs = require('fs');
 
@@ -50,6 +46,10 @@ const port = process.env.PORT || 4000
 
 app.use(bodyParser.json(), cors())
 app.options('*', cors());
+
+app.use(session({ secret: 'anything' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 var favicon = require('serve-favicon');
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
