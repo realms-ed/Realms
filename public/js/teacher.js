@@ -199,8 +199,8 @@ var myChart = new Chart(
 
 function addData(chart, label, data) {
     chart.data.labels.push(label);
-    chart.data.datasets[0].data.push(data[0]+data[1]+data[2]);
-    chart.data.datasets[1].data.push(data[1]+data[2]);
+    chart.data.datasets[0].data.push(data[0]);
+    chart.data.datasets[1].data.push(data[1]);
     chart.data.datasets[2].data.push(data[2]);
     chart.update();
 }
@@ -221,7 +221,9 @@ worker.onmessage = function () {
             .then(data => {
                 console.log(data.understand);
                 window.u = data.understand; window.q = data.question; window.d = data.dont_understand;
-                draw(data.understand, data.question, data.dont_understand);
+                draw(data.understand + data.question + data.dont_understand, 
+                    data.question + data.dont_understand,
+                    data.dont_understand);
                 if (data.understand + data.question + data.dont_understand > 0) {
                     addData(myChart, (new Date).getTime(), [window.u, window.q, window.d]);
                     removeData(myChart);
