@@ -219,11 +219,11 @@ worker.onmessage = function () {
             .then(data => {
                 console.log(data.understand);
                 window.u = data.understand; window.q = data.question; window.d = data.dont_understand;
-                draw(data.understand + data.question + data.dont_understand, 
-                    data.question + data.dont_understand,
+                draw(data.understand, 
+                    data.question,
                     data.dont_understand);
                 if (data.understand + data.question + data.dont_understand > 0) {
-                    addData(myChart, (new Date).getTime(), [window.u, window.q, window.d]);
+                    addData(myChart, (new Date).getTime(), [window.u+windows.q+window.d, window.q+window.d, window.d]);
                     removeData(myChart);
                 }
             });
