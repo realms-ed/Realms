@@ -134,7 +134,11 @@ const data = {
 
 const config = {
     type: 'line',
-    data,
+    data: {
+        datasets: [
+            {fill: '-1'}
+        ]
+    },
     options: {
         events: ["mouseout", "click", "touchstart", "touchmove", "touchend"],
         maintainAspectRatio: false,
@@ -195,8 +199,8 @@ var myChart = new Chart(
 
 function addData(chart, label, data) {
     chart.data.labels.push(label);
-    chart.data.datasets[0].data.push(data[0]);
-    chart.data.datasets[1].data.push(data[1]);
+    chart.data.datasets[0].data.push(data[0]+data[1]+data[2]);
+    chart.data.datasets[1].data.push(data[1]+data[2]);
     chart.data.datasets[2].data.push(data[2]);
     chart.update();
 }
