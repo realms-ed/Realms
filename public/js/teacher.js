@@ -113,32 +113,30 @@ const data = {
         backgroundColor: '#02ba42',
         borderColor: '#02ba42',
         data: new Array(30).fill(null),
-        lineTension: 0.4
+        lineTension: 0.4,
+        fill: '-1'
     },
     {
         label: 'Has Question',
         backgroundColor: '#e3d149',
         borderColor: '#e3d149',
         data: new Array(30).fill(null),
-        lineTension: 0.4
+        lineTension: 0.4,
+        fill: '-1'
     },
     {
         label: "Don't Understand",
         backgroundColor: '#d92e5b',
         borderColor: '#d92e5b',
         data: new Array(30).fill(null),
-        lineTension: 0.4
+        lineTension: 0.4,
+        fill: '-1'
     },
     ]
 };
 
 const config = {
     type: 'line',
-    data: {
-        datasets: [
-            {fill: '-1'}
-        ]
-    },
     options: {
         events: ["mouseout", "click", "touchstart", "touchmove", "touchend"],
         maintainAspectRatio: false,
