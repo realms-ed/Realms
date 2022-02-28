@@ -113,30 +113,28 @@ const data = {
         backgroundColor: '#02ba42',
         borderColor: '#02ba42',
         data: new Array(30).fill(null),
-        lineTension: 0.4,
-        fill: '-1'
+        lineTension: 0.4
     },
     {
         label: 'Has Question',
         backgroundColor: '#e3d149',
         borderColor: '#e3d149',
         data: new Array(30).fill(null),
-        lineTension: 0.4,
-        fill: '-1'
+        lineTension: 0.4
     },
     {
         label: "Don't Understand",
         backgroundColor: '#d92e5b',
         borderColor: '#d92e5b',
         data: new Array(30).fill(null),
-        lineTension: 0.4,
-        fill: '-1'
+        lineTension: 0.4
     },
     ]
 };
 
 const config = {
     type: 'line',
+    data,
     options: {
         events: ["mouseout", "click", "touchstart", "touchmove", "touchend"],
         maintainAspectRatio: false,
@@ -219,11 +217,9 @@ worker.onmessage = function () {
             .then(data => {
                 console.log(data.understand);
                 window.u = data.understand; window.q = data.question; window.d = data.dont_understand;
-                draw(data.understand, 
-                    data.question,
-                    data.dont_understand);
+                draw(data.understand, data.question, data.dont_understand);
                 if (data.understand + data.question + data.dont_understand > 0) {
-                    addData(myChart, (new Date).getTime(), [window.u+window.q+window.d, window.q+window.d, window.d]);
+                    addData(myChart, (new Date).getTime(), [window.u, window.q, window.d]);
                     removeData(myChart);
                 }
             });
