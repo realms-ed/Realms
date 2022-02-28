@@ -9,6 +9,13 @@ body {
     height: 100%;
 }
 
+.vertical-center {
+    position: absolute;
+    width: 20%;
+    left: 20%;
+    top: 45%;
+}
+
 .joinops {
     text-align: center;
     margin: 0;
