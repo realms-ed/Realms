@@ -13,16 +13,17 @@ body {
     position: absolute;
     width: 20%;
     left: 20%;
-    top: 45%;
+    top: 30%;
+    text-align: center;
 }
 
 .joinops {
     text-align: center;
     margin: 0;
     position: absolute;
-    left: 15%;
+    left: 35%;
     width: 30%;
-    top: 55%;
+    top: 45%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
@@ -32,7 +33,7 @@ body {
     margin: 0;
     position: absolute;
     left: 57.5%;
-    top: 50%;
+    top: 30%;
     width: 25%;
     height: 30%;
 }
